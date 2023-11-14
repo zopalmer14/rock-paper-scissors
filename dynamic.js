@@ -18,33 +18,33 @@ function playRound(playerSelection, computerSelection) {
         case "rock":
             switch(computerSelection) {
                 case "rock":
-                    return "It's a Tie! Rock ties Rock";
+                    return [0, "It's a Tie! Rock ties Rock"];
                 case "paper":
-                    return "You Lose! Paper beats Rock";
+                    return [-1, "You Lose! Paper beats Rock"];
                 case "scissors":
-                    return "You Win! Rock beats Scissors";
+                    return [1, "You Win! Rock beats Scissors"];
                 default:
                     console.log("Something is wrong");
             }
         case "paper":
             switch(computerSelection) {
                 case "rock":
-                    return "You Win! Paper beats Rock";
+                    return [1, "You Win! Paper beats Rock"];
                 case "paper":
-                    return "It's a Tie! Paper ties Paper";
+                    return [0, "It's a Tie! Paper ties Paper"];
                 case "scissors":
-                    return "You Lose! Scissors beats Paper";
+                    return [-1, "You Lose! Scissors beats Paper"];
                 default:
                     console.log("Something is wrong");
             }
         case "scissors":
             switch(computerSelection) {
                 case "rock":
-                        return "You Lose! Rock beats Scissors";
+                    return [-1, "You Lose! Rock beats Scissors"];
                 case "paper":
-                    return "You Win! Scissors beats Paper";
+                    return [1, "You Win! Scissors beats Paper"];
                 case "scissors":
-                    return "It's a Tie! Scissors ties Scissors";
+                    return [0, "It's a Tie! Scissors ties Scissors"];
                 default:
                     console.log("Something is wrong");
             }
@@ -53,7 +53,38 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-const playerSelection = getComputerChoice();
-const computerSelection = getComputerChoice();
-console.log(playerSelection, computerSelection);
-console.log(playRound(playerSelection, computerSelection));
+function game() {
+    let userScore = 0;
+    let computerScore = 0;
+    let maxRound = 5;
+    // loop over the rounds until we reach the max round (end of game)
+    for (let currentRound = 0; currentRound < maxRound; currentRound++) {
+        // grab the input from the user/player
+        let userInput = prompt("Choose Rock, Paper, or Scissors");
+        // play a round
+        let [result, message] = playRound(userInput, getComputerChoice());
+        // output the message to the console and adjust the scores accordingly based on the result
+        console.log(message);
+        switch(result) {
+            case -1:
+                computerScore++;
+                break;
+            case 1:
+                userScore++;
+                break;
+            default:
+        }
+    }
+    // generate and output the game end message depending on the relative score values
+    let gameEndMessage;
+    if (userScore > computerScore) {
+        gameEndMessage = `You Win! You won ${userScore} rounds and the computer only won ${computerScore} rounds`;
+    } else if (userScore < computerScore) {
+        gameEndMessage = `You Lose! The computer won ${computerScore} rounds and you only won ${userScore} rounds`;
+    } else {
+        gameEndMessage = `It's a Tie! You and the computer both won ${userScore} rounds`;
+    }
+    console.log(gameEndMessage);
+}
+
+game();
