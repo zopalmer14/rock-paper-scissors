@@ -53,28 +53,17 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function game() {
-    let userScore = 0;
-    let computerScore = 0;
-    let maxRound = 5;
-    // loop over the rounds until we reach the max round (end of game)
-    for (let currentRound = 0; currentRound < maxRound; currentRound++) {
-        // grab the input from the user/player
-        let userInput = prompt("Choose Rock, Paper, or Scissors");
-        // play a round
-        let [result, message] = playRound(userInput, getComputerChoice());
-        // output the message to the console and adjust the scores accordingly based on the result
-        console.log(message);
-        switch(result) {
-            case -1:
-                computerScore++;
-                break;
-            case 1:
-                userScore++;
-                break;
-            default:
-        }
-    }
+// GAME MANAGEMENT
+
+let userScore = 0;
+let computerScore = 0;
+let maxRound = 5;
+
+// grab the message output div
+const div = document.querySelector('#result-output'); 
+
+// check game end scenario
+if (userScore >= maxRound || computerScore >= maxRound) {
     // generate and output the game end message depending on the relative score values
     let gameEndMessage;
     if (userScore > computerScore) {
@@ -84,20 +73,33 @@ function game() {
     } else {
         gameEndMessage = `It's a Tie! You and the computer both won ${userScore} rounds`;
     }
-    console.log(gameEndMessage);
+    div.textContent = gameEndMessage;
+
+    // reset the scores
+    userScore, computerScore = 0;
 }
 
-// create a nodeList of all the buttons
+// grab the nodeList of all the buttons
 const buttons = document.querySelectorAll('button');
-console.log(buttons);
 
 // iterate over the buttons and create an eventListener for each 
 buttons.forEach((button) => {
     // add a click listener that passes the button's id as the playerSelection to playRound
     button.addEventListener('click', () => {
         let [result, message] = playRound(button.id, getComputerChoice());
-        console.log(result);
-        console.log(message);
+        
+        // adjust the scores accordingly based on the result
+        switch(result) {
+            case -1:
+                computerScore++;
+                break;
+            case 1:
+                userScore++;
+                break;
+        }
+
+        // set the div's textContent to the message and scores
+        div.textContent = message + `\r\nUser Score: ${userScore}\r\nComputer Score: ${computerScore}`;
     });
 });
 
