@@ -62,23 +62,6 @@ let maxRound = 5;
 // grab the message output div
 const div = document.querySelector('#result-output'); 
 
-// check game end scenario
-if (userScore >= maxRound || computerScore >= maxRound) {
-    // generate and output the game end message depending on the relative score values
-    let gameEndMessage;
-    if (userScore > computerScore) {
-        gameEndMessage = `You Win! You won ${userScore} rounds and the computer only won ${computerScore} rounds`;
-    } else if (userScore < computerScore) {
-        gameEndMessage = `You Lose! The computer won ${computerScore} rounds and you only won ${userScore} rounds`;
-    } else {
-        gameEndMessage = `It's a Tie! You and the computer both won ${userScore} rounds`;
-    }
-    div.textContent = gameEndMessage;
-
-    // reset the scores
-    userScore, computerScore = 0;
-}
-
 // grab the nodeList of all the buttons
 const buttons = document.querySelectorAll('button');
 
@@ -98,8 +81,26 @@ buttons.forEach((button) => {
                 break;
         }
 
-        // set the div's textContent to the message and scores
-        div.textContent = message + `\r\nUser Score: ${userScore}\r\nComputer Score: ${computerScore}`;
+        // check game end scenario
+        if (userScore >= maxRound || computerScore >= maxRound) {
+            // generate and output the game end message depending on the relative score values
+            let gameEndMessage;
+            if (userScore > computerScore) {
+                gameEndMessage = `You Win! You won ${userScore} rounds and the computer only won ${computerScore} rounds`;
+            } else if (userScore < computerScore) {
+                gameEndMessage = `You Lose! The computer won ${computerScore} rounds and you only won ${userScore} rounds`;
+            } else {
+                gameEndMessage = `It's a Tie! You and the computer both won ${userScore} rounds`;
+            }
+            div.textContent = gameEndMessage;
+
+            // reset the scores
+            userScore = 0;
+            computerScore = 0;
+        } else {
+            // set the div's textContent to the message and scores
+            div.textContent = message + `\r\nUser Score: ${userScore}\r\nComputer Score: ${computerScore}`;
+        }
     });
 });
 
