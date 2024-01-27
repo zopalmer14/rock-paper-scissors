@@ -87,4 +87,17 @@ function game() {
     console.log(gameEndMessage);
 }
 
-game();
+// create a nodeList of all the buttons
+const buttons = document.querySelectorAll('button');
+console.log(buttons);
+
+// iterate over the buttons and create an eventListener for each 
+buttons.forEach((button) => {
+    // add a click listener that passes the button's id as the playerSelection to playRound
+    button.addEventListener('click', () => {
+        let [result, message] = playRound(button.id, getComputerChoice());
+        console.log(result);
+        console.log(message);
+    });
+});
+
